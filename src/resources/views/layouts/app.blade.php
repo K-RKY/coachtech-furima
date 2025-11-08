@@ -14,7 +14,7 @@
 <body>
     <header>
         <a class="header-logo" href="{{ route('items.index') }}">
-            <img class="header-logo__image" src="/storage/images/logo.svg" alt="COACHTECH">
+            <img class="header-logo__image" src="{{ asset('logo.svg') }}" alt="COACHTECH">
         </a>
 
         @if (!request()->is('login') && !request()->is('register') && !request()->is('verify-notice'))
