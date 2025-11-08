@@ -16,6 +16,8 @@ services:
       - ./src:/var/www/
     command: >
       sh -c "
+        cd /var/www &&
+        composer install &&
         php artisan storage:link &&
         php-fpm
       "
