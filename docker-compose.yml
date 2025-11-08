@@ -14,6 +14,11 @@ services:
     build: ./docker/php
     volumes:
       - ./src:/var/www/
+    command: >
+      sh -c "
+        php artisan storage:link &&
+        php-fpm
+      "
 
   mysql:
     image: arm64v8/mysql:8.0
