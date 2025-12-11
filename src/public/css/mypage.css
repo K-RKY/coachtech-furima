@@ -24,6 +24,28 @@
     background-color: #ccc;
 }
 
+.user-name-rate {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.review-stars {
+    display: flex;
+    justify-content: space-around;
+    font-size: 30px;
+    margin: 40px 0;
+}
+
+.star {
+    color: #ccc;
+    margin: 0 2px;
+}
+
+.star.active {
+    color: #fff047;
+}
+
 .select-image {
     display: none;
 }
@@ -71,6 +93,15 @@
     color: #ff0000;
 }
 
+.totalUnread {
+    margin-left: 5px;
+    padding: 2px 6px;
+    color: white;
+    background-color: red;
+    font-weight: bold;
+    border-radius: 11px;
+}
+
 .item-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -104,6 +135,19 @@
     color: black;
 }
 
+.unread-count {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
 .sold-overlay {
     width: 100%;
     position: absolute;
@@ -122,3 +166,4 @@
 .sold-image {
     opacity: 0.6;
 }
+

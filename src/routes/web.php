@@ -8,6 +8,8 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SellController;
+use App\Http\Controllers\TransactionMessageController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -31,6 +33,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //商品出品
     Route::get('/sell', [SellController::class, 'create'])->name('sell.create');
     Route::post('/sell', [SellController::class, 'store'])->name('sell.store');
+
+    // 取引画面
+    Route::get('/transaction-message', [TransactionMessageController::class, 'index'])->name('transaction_message.index');
+    Route::post('/transaction-message', [TransactionMessageController::class, 'store'])->name('transaction_message.store');
+    Route::post('/transaction-message/update/{id}', [TransactionMessageController::class, 'update'])
+        ->name('transaction_message.update');
+    Route::post('/transaction_message/delete/{id}', [TransactionMessageController::class, 'destroy'])->name('transaction_message.destroy');
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 //商品一覧・詳細
 Route::get('/', [ItemController::class, 'index'])->name('items.index');

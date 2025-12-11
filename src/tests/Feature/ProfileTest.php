@@ -46,8 +46,8 @@ class ProfileTest extends TestCase
             ->assertSee('profile_images/test.png')
             ->assertSee($exhibitionItem->name);
 
-        // デフォルトタブ（購入商品）
-        $responsePurchase = $this->get(route('mypage.index'));
+        // 購入商品タブ
+        $responsePurchase = $this->get(route('mypage.index', ['tab' => 'purchasedItems']));
         $responsePurchase->assertStatus(200)
             ->assertSee($user->name)
             ->assertSee('profile_images/test.png')

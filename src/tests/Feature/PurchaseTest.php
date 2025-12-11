@@ -88,7 +88,7 @@ class PurchaseTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->get(route('mypage.index'));
+        $response = $this->get(route('mypage.index', ['tab' => 'purchasedItems']));
 
         $response->assertStatus(200)
             ->assertSee($item->name);

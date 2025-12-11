@@ -61,7 +61,8 @@ class PurchaseController extends Controller
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => route('payment.success'),
+            // Checkout 完了後に transaction_message.index にリダイレクト、session_id を付与
+            'success_url' => route('transaction_message.index') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('payment.cancel'),
             'metadata' => [
                 'user_id' => $user->id,
@@ -73,6 +74,7 @@ class PurchaseController extends Controller
             ],
         ]);
 
+        // Stripe が返す metadata に session_id を追加
         \Stripe\Checkout\Session::update(
             $session->id,
             ['metadata' => array_merge($session->metadata->toArray(), ['session_id' => $session->id])]
@@ -80,6 +82,7 @@ class PurchaseController extends Controller
 
         return redirect($session->url);
     }
+
 
     /**
      * Stripe Webhook受信
@@ -125,7 +128,7 @@ class PurchaseController extends Controller
             $building = $session->metadata->building ?? '';
             $shipping_address = trim("$postal $address $building");
 
-            $status = $session->payment_status === 'paid' ? 'paid' : 'pending';
+            $status = $session->payment_status === 'paid' ? 'in_progress' : 'pending';
             $amount = intval($session->amount_total ?? 0);
 
             // 重複チェック
@@ -133,7 +136,7 @@ class PurchaseController extends Controller
                 return;
             }
 
-            Purchase::create([
+            $createdPurchase = Purchase::create([
                 'user_id' => $user_id,
                 'item_id' => $item_id,
                 'payment_method' => $session->metadata->payment_method ?? 'unknown',

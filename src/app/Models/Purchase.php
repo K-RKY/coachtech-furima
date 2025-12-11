@@ -30,4 +30,33 @@ class Purchase extends Model
     {
         return $this->belongsTo(Item::class);
     }
+
+    // 出品者を取得
+    public function seller()
+    {
+        return $this->item->seller;
+    }
+
+    public function isBuyer(User $user)
+    {
+        return $this->user_id === $user->id;
+    }
+
+    public function getPartner(User $user)
+    {
+        return $this->isBuyer($user)
+            ? $this->seller()
+            : $this->user;
+    }
+
+    // 取引モデルとのリレーション
+    public function transactionMessages()
+    {
+        return $this->hasMany(TransactionMessage::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
