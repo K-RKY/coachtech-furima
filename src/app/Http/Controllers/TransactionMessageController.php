@@ -51,7 +51,7 @@ class TransactionMessageController extends Controller
 
         $transactionMessages = $purchase->transactionMessages;
 
-        $sidebarItems = $this->getSidebarItems($user, $purchaseId);
+        $sidebarItems = $this->getSidebarItems($user, $purchase->id);
 
         return view('transaction_message', compact('user', 'purchase', 'item', 'partner', 'transactionMessages', 'sidebarItems', 'pendingReview'));
     }
