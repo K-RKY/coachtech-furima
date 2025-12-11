@@ -33,8 +33,6 @@ class ItemSeeder extends Seeder
         $yamada   = User::where('email', 'yamada@test.com')->first();
         $suzuki   = User::where('email', 'suzuki@test.com')->first();
         $sato     = User::where('email', 'sato@test.com')->first();
-        $tanaka   = User::where('email', 'tanaka@test.com')->first();
-        $kobayashi = User::where('email', 'kobayashi@test.com')->first();
 
         $item1 = Item::create([
             'user_id' => $yamada->id,
@@ -59,7 +57,7 @@ class ItemSeeder extends Seeder
         $item2->categories()->attach([$electronics->id]);
 
         $item3 = Item::create([
-            'user_id' => $suzuki->id,
+            'user_id' => $yamada->id,
             'name' => '玉ねぎ3束',
             'brand' => 'なし',
             'description' => '新鮮な玉ねぎ3束のセット',
@@ -70,7 +68,7 @@ class ItemSeeder extends Seeder
         $item3->categories()->attach([$kitchen->id]);
 
         $item4 = Item::create([
-            'user_id' => $suzuki->id,
+            'user_id' => $yamada->id,
             'name' => '革靴',
             'brand' => '',
             'description' => 'クラシックなデザインの革靴',
@@ -81,7 +79,7 @@ class ItemSeeder extends Seeder
         $item4->categories()->attach([$fashion->id]);
 
         $item5 = Item::create([
-            'user_id' => $sato->id,
+            'user_id' => $yamada->id,
             'name' => 'ノートPC',
             'brand' => '',
             'description' => '高性能なノートパソコン',
@@ -92,7 +90,7 @@ class ItemSeeder extends Seeder
         $item5->categories()->attach([$electronics->id]);
 
         $item6 = Item::create([
-            'user_id' => $sato->id,
+            'user_id' => $suzuki->id,
             'name' => 'マイク',
             'brand' => 'なし',
             'description' => '高音質のレコーディング用マイク',
@@ -103,7 +101,7 @@ class ItemSeeder extends Seeder
         $item6->categories()->attach([$electronics->id]);
 
         $item7 = Item::create([
-            'user_id' => $tanaka->id,
+            'user_id' => $suzuki->id,
             'name' => 'ショルダーバッグ',
             'brand' => '',
             'description' => 'おしゃれなショルダーバッグ',
@@ -114,7 +112,7 @@ class ItemSeeder extends Seeder
         $item7->categories()->attach([$fashion->id]);
 
         $item8 = Item::create([
-            'user_id' => $tanaka->id,
+            'user_id' => $suzuki->id,
             'name' => 'タンブラー',
             'brand' => 'なし',
             'description' => '使いやすいタンブラー',
@@ -125,7 +123,7 @@ class ItemSeeder extends Seeder
         $item8->categories()->attach([$kitchen->id]);
 
         $item9 = Item::create([
-            'user_id' => $kobayashi->id,
+            'user_id' => $suzuki->id,
             'name' => 'コーヒーミル',
             'brand' => 'Starbacks',
             'description' => '手動のコーヒーミル',
@@ -136,7 +134,7 @@ class ItemSeeder extends Seeder
         $item9->categories()->attach([$kitchen->id]);
 
         $item10 = Item::create([
-            'user_id' => $kobayashi->id,
+            'user_id' => $suzuki->id,
             'name' => 'メイクセット',
             'brand' => '',
             'description' => '便利なメイクアップセット',

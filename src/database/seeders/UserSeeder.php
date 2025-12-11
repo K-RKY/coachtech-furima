@@ -32,17 +32,5 @@ class UserSeeder extends Seeder
             'email' => 'sato@test.com',
             'password' => Hash::make('password'),
         ]);
-
-        User::create([
-            'name' => '田中四郎',
-            'email' => 'tanaka@test.com',
-            'password' => Hash::make('password'),
-        ]);
-
-        User::create([
-            'name' => '小林花子',
-            'email' => 'kobayashi@test.com',
-            'password' => Hash::make('password'),
-        ]);
     }
 }
