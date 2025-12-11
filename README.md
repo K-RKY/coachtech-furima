@@ -31,11 +31,23 @@
 
 ### テスト環境構築
 
-2. `.envから.env.testingを作成し、環境変数をテスト用に変更 (DB_DATABASEはfurima_testにしてください)`
-3. `docker-compose exec php bash`
-4. `php artisan key:generate --env=testing`
-5. `php artisan config:clear`
-6. `php artisan migrate --env=testing`
+1. `docker exec -it attendance-app-mysql-1 bash`
+2. `mysql -u root -p`
+3. `CREATE DATABASE attendance_test;`
+4. `.envから.env.testingを作成し、環境変数をテスト用に変更 (DB_DATABASEはfurima_testにしてください)`
+5. `docker-compose exec php bash`
+6. `php artisan key:generate --env=testing`
+7. `php artisan config:clear`
+8. `php artisan migrate --env=testing`
+
+## ダミーデータ
+
+| 名前        | メールアドレス           | パスワード | 出品した商品          |
+|-------------|-------------------------|------------|-----------------------|
+| 山田 太郎   | yamada@test.com          | password   | CO01, CO02, CO03, CO04, CO05 |
+| 鈴木 次郎   | suzuki@test.com          | password   | CO06, CO07, CO08, CO09, CO10 |
+| 佐藤 三郎   | sato@test.com            | password   | なし                  |
+
 
 ## 使用技術
 
@@ -45,7 +57,8 @@
 
 ## ER図
 
-<img width="881" height="781" alt="furima" src="https://github.com/user-attachments/assets/9e7e1b3a-a897-41f2-b731-4122a6b1c874" />
+<img width="1081" height="821" alt="furima" src="https://github.com/user-attachments/assets/77c2ecc6-b2f7-4091-8115-f6aaa5a55a81" />
+
 
 ## URL
 
