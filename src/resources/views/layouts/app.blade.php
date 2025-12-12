@@ -17,7 +17,7 @@
             <img class="header-logo__image" src="{{ asset('logo.svg') }}" alt="COACHTECH">
         </a>
 
-        @if (!request()->is('login') && !request()->is('register') && !request()->is('verify-notice'))
+        @if (!request()->is('login') && !request()->is('register') && !request()->is('verify-notice') && !request()->is('transaction-message'))
         <form class="search-form" action="{{ route('items.index') }}" method="GET">
             @csrf
             <input class="search-form__input" type="text" name="keyword" placeholder="なにをお探しですか？">

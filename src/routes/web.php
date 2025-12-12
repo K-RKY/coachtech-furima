@@ -39,7 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/transaction-message', [TransactionMessageController::class, 'store'])->name('transaction_message.store');
     Route::post('/transaction-message/update/{id}', [TransactionMessageController::class, 'update'])
         ->name('transaction_message.update');
-    Route::post('/transaction_message/delete/{id}', [TransactionMessageController::class, 'destroy'])->name('transaction_message.destroy');
+    Route::post('/transaction-message/delete/{id}', [TransactionMessageController::class, 'destroy'])->name('transaction_message.destroy');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 //商品一覧・詳細

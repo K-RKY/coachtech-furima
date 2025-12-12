@@ -127,18 +127,14 @@ class TransactionMessageController extends Controller
             $path = $request->file('image')->store('transaction_images', 'public');
         }
 
-        $msg = TransactionMessage::create([
+        TransactionMessage::create([
             'purchase_id' => $purchaseId,
             'sender_id' => $user->id,
             'content' => $request->content,
             'image_path' => $path,
         ]);
 
-        return response()->json([
-            'id' => $msg->id,
-            'content' => $msg->content,
-            'image_path' => $path ? asset('storage/' . $path) : null,
-        ]);
+        return redirect()->route('transaction_message.index', ['purchaseId' => $purchaseId]);
     }
 
 

@@ -18,6 +18,13 @@
             @endforeach
         </nav>
     </div>
+    <div class="hamburger__wrap">
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
     <div class="transaction-container">
         <div class="transaction-header">
             @if($partner->image_path)
@@ -79,9 +86,10 @@
         <span class="error-message">{{ $errors->first('content') ?: $errors->first('image') }}</span>
         @endif
 
-        <form class="input-container" id="message-form" enctype="multipart/form-data">
+        <form class="input-container" action="{{ route('transaction_message.store', ['purchaseId' => $purchase->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <textarea class="input-textarea" name="content" placeholder="取引メッセージを記入してください" rows="1"></textarea>
+            <textarea class="input-textarea" name="content" placeholder="取引メッセージを記入してください" rows="1" data-purchase-id="{{ $purchase->id }}"
+                data-user-id="{{ auth()->user()->id }}"></textarea>
             <button class="input-img-btn" type="button">画像を追加</button>
             <input class="input-img" type="file" name="image" hidden>
             <button class="input-send-btn" type="submit">
@@ -135,6 +143,14 @@
     // 新しいチャットが来ると自動でスクロール
     const chat = document.querySelector('.chat-container');
     chat.scrollTop = chat.scrollHeight;
+
+    const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.querySelector('.sidebar');
+
+    hamburger.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+    });
+
 
     document.getElementById('completeTransactionBtn').addEventListener('click', function() {
         document.getElementById('completeTransactionModal').style.display = 'flex';
@@ -200,8 +216,15 @@
             modal.style.display = 'flex';
         }
 
+        // テキストエリアの入力値を保持
+        const purchaseId = document.querySelector('textarea[name="content"]').dataset.purchaseId;
+        const userId = document.querySelector('textarea[name="content"]').dataset.userId;
+
+        // textareaの取得
         const textarea = document.querySelector('textarea[name="content"]');
-        const storageKey = 'transactionMessageContent';
+
+        // キーをユニークにする
+        const storageKey = `transactionMessageContent_user${userId}_purchase${purchaseId}`;
 
         // ページロード時に保存されている内容を読み込む
         const savedValue = sessionStorage.getItem(storageKey);
@@ -209,10 +232,11 @@
             textarea.value = savedValue;
         }
 
-        // 入力中に `sessionStorage` に保存
+        // 入力中に sessionStorage に保存
         textarea.addEventListener('input', function() {
             sessionStorage.setItem(storageKey, textarea.value);
         });
+
     });
 
     // 画像を追加ボタンを押した時の処理
@@ -248,62 +272,6 @@
                 previewArea.innerHTML = ""; // プレビューを消す
                 input.value = ""; // ファイル選択をリセット
             }
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('message-form');
-        const chat = document.querySelector('.chat-container');
-        const inputImg = document.querySelector('.input-img');
-        const previewArea = document.querySelector('.img-preview');
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); // フォームのデフォルト送信を止める
-
-            const formData = new FormData(form);
-            // CSRFトークンを追加
-            formData.append('_token', '{{ csrf_token() }}');
-
-            fetch("{{ route('transaction_message.store', ['purchaseId' => $purchase->id]) }}", {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(data => {
-                    // 新しいメッセージをチャットに追加
-                    const msgHtml = `
-            <div class="my-side">
-                <div class="my-message">
-                    <div class="user-info">
-                        <span class="user-info__name">{{ $user->name }}</span>
-                        @if($user->image_path)
-                        <img class="user-info__icon" src="{{ asset('storage/' . $user->image_path) }}" alt="{{ $user->name }}">
-                        @else
-                        <div class="user-info__icon user-info__icon--default"></div>
-                        @endif
-                    </div>
-                    ${data.image_path ? `<img class="message-img" src="${data.image_path}" alt="">` : ''}
-                    <div class="message-text" id="msg-text-${data.id}" contenteditable="false" data-original="${data.content}">
-                        ${data.content}
-                    </div>
-                    <div class="message-editor">
-                        <button class="message-editor__btn" onclick="enableEdit(${data.id})">編集</button>
-                        <button class="message-editor__btn" onclick="saveEdit(${data.id})" style="display:none;">保存</button>
-                        <button class="message-editor__btn">削除</button>
-                    </div>
-                </div>
-            </div>
-            `;
-                    chat.insertAdjacentHTML('beforeend', msgHtml);
-
-                    // スクロール
-                    chat.scrollTop = chat.scrollHeight;
-
-                    // フォームリセット
-                    form.reset();
-                    previewArea.innerHTML = '';
-                })
-                .catch(err => console.error(err));
         });
     });
 
@@ -345,7 +313,7 @@
         deleteBtn.style.display = 'inline-block';
 
         // Ajax
-        fetch(`/transaction_message/update/${id}`, {
+        fetch(`/transaction-message/update/${id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -369,7 +337,7 @@
 
             if (!confirm('このメッセージを削除しますか？')) return;
 
-            fetch(`/transaction_message/delete/${msgId}`, {
+            fetch(`/transaction-message/delete/${msgId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

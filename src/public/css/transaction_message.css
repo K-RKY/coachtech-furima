@@ -26,8 +26,7 @@
 
 .sidebar__link {
     position: relative;
-    height: 40px;
-    padding-top: 4px;
+    padding: 5px 0;
     color: black;
     background-color: #eeefec;
     font-size: 22px;
@@ -286,12 +285,16 @@
     border-radius: 5px;
     font-weight: bold;
     padding: 15px;
-    margin-top: 10px;
+    margin: 10px 0;
 }
 
 .message-img {
     width: 100%;
     margin-top: 10px;
+}
+
+.message-editor {
+    display: flex;
 }
 
 .message-editor__btn {
@@ -379,4 +382,107 @@
 .error-message {
     margin-left: 20px;
     color: red;
+}
+
+@media (max-width: 1440px) {
+    .sidebar__title {
+        font-size: 25px;
+    }
+
+    .sidebar__link {
+        font-size: 18px;
+    }
+}
+@media (max-width: 1250px) {
+    .sidebar__title {
+        font-size: 20px;
+    }
+
+    .sidebar__link {
+        font-size: 15px;
+    }
+
+    .input-textarea {
+        width: 70%;
+    }
+}
+
+.hamburger__wrap {
+    display: none;
+    width: 60px;
+    height: 100vh;
+    padding: 10px;
+    background-color: #868686;
+}
+
+.hamburger__wrap.hide {
+    display: none;
+}
+
+/* ハンバーガーは普段非表示 */
+.hamburger {
+    display: none;
+    width: 30px;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    top: 100px;
+    left: 15px;
+    z-index: 100;
+}
+
+.hamburger span {
+    display: block;
+    height: 3px;
+    background: #eeefec;
+}
+
+/* 小画面でサイドバー非表示・ハンバーガー表示 */
+@media (max-width: 1070px) {
+    .sidebar {
+        display: none;
+        width: 250px;
+        height: 100vh;
+        z-index: 99;
+    }
+
+    .hamburger__wrap {
+        display: block;
+    }
+
+    .sidebar.open {
+        display: block;
+    }
+
+    .hamburger__wrap.hide {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .sidebar.open+.hamburger {
+        top: 0px;
+    }
+}
+
+@media (max-width: 850px) {
+    .input-img-btn {
+        padding: 5px;
+        font-size: 16px;
+    }
+
+    .complete-transaction-btn {
+        font-size: 14px;
+        right: 20px;
+    }
+
+    .transaction-header__title {
+        font-size: 25px;
+    }
+
+    .item-name {
+        font-size: 30px;
+    }
 }
